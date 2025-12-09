@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/styles.css" />
+    <title>Pedal House</title>
+  </head>
+
+  <body>
+    <header class="header-wrapper">
+      <div class="logo-container">
+        <img
+          src="../imgs/fondos/logo.png"
+          class="logo-nav"
+          alt="Logo"
+          onclick="window.location.href='/frontend/public/index.html'"
+        />
+      </div>
+
+      <nav class="nav-menu">
+        <!-- Menú de navegación -->
+        <ul class="nav-list">
+          <li><a href="#">Productos</a></li>
+        </ul>
+
+        <!-- Barra de búsqueda -->
+        <div class="nav-search">
+          <input
+            type="text"
+            id="busqueda"
+            placeholder="Buscar producto..."
+            autocomplete="off"
+          />
+        </div>
+
+        <!-- Iconos de carrito y usuario -->
+        <div class="nav-actions">
+          <div class="nav-cart" id="btnOpenCart" title="Ver carrito">🛒</div>
+          <div class="nav-user" id="btnOpenLogin"></div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- ========== BANNER ========= -->
+    <section class="banner"></section>
+
+    <section class="productos">
+      <h1>Productos</h1>
+      <div id="contenedorProductos" class="grid-productos"></div>
+    </section>
+
+    <!-- ========== LOGIN MODAL ========= -->
+    <div id="modalLogin" class="modal">
+      <div class="modal-content">
+        <span class="cerrar" onclick="cerrarModal('modalLogin')">&times;</span>
+
+        <h2>Login</h2>
+
+        <form id="formLogin">
+          <input type="email" id="correo" placeholder="Correo" required />
+          <input
+            type="password"
+            id="contraseña"
+            placeholder="Contraseña"
+            required
+          />
+          <button type="submit">Ingresar</button>
+        </form>
+
+        <p
+          class="cambiar"
+          onclick="cambiarDeModal('modalLogin', 'modalRegister')"
+        >
+          ¿No tienes cuenta? Regístrate
+        </p>
+      </div>
+    </div>
+
+    <!-- ========== REGISTER MODAL ========= -->
+    <div id="modalRegister" class="modal">
+      <div class="modal-content">
+        <span class="cerrar" onclick="cerrarModal('modalRegister')"
+          >&times;</span
+        >
+
+        <h2>Registro</h2>
+
+        <form id="formRegister">
+          <input type="text" id="nombre" placeholder="Nombre" required />
+          <input type="text" id="apellido" placeholder="Apellido" required />
+          <input type="number" id="cedula" placeholder="Cédula" required />
+          <input type="number" id="telefono" placeholder="Teléfono" required />
+          <input type="email" id="correoReg" placeholder="Correo" required />
+
+          <input
+            type="password"
+            id="passReg"
+            placeholder="Contraseña"
+            required
+          />
+
+          <button type="submit">Registrar</button>
+        </form>
+
+        <p
+          class="cambiar"
+          onclick="cambiarDeModal('modalRegister', 'modalLogin')"
+        >
+          ¿Ya tienes cuenta? Inicia sesión
+        </p>
+      </div>
+    </div>
+
+    <!-- ========== MODAL DETALLE PRODUCTO ========== -->
+    <div id="modalProducto" class="modal">
+      <div class="modal-content modal-producto">
+        <span class="cerrar" onclick="cerrarModal('modalProducto')"
+          >&times;</span
+        >
+
+        <img id="detalleImagen" class="detalle-imagen" />
+
+        <div class="detalle-info">
+          <h2 id="detalleNombre"></h2>
+          <p id="detalleDescripcion"></p>
+
+          <p id="detalleCategoria"></p>
+          <p id="detalleStock"></p>
+
+          <span id="detallePrecio" class="precio-detalle"></span>
+
+          <button id="btnAgregarCarrito" class="btn-add-cart">
+            Añadir al carrito
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== SIDEBAR CARRITO ========== -->
+    <div id="sidebarCarrito" class="sidebar-carrito">
+      <div class="sidebar-header">
+        <h2>Carrito</h2>
+        <span class="cerrar" id="btnCerrarCarrito">&times;</span>
+      </div>
+
+      <div id="listaCarrito" class="lista-carrito"></div>
+
+      <div class="sidebar-footer">
+        <h3>Total: <span id="totalCarrito">$0</span></h3>
+        <button class="btn-checkout">Finalizar compra</button>
+      </div>
+    </div>
+
+    <script src="./logica/indexLogica.js"></script>
+    <script type="module" src="./logica/usuariosRegistro.js"></script>
+    <script type="module" src="./logica/productosPublicLogica.js"></script>
+    <script type="module" src="./logica/authLogica.js"></script>
+    <script type="module" src="./logica/sesionesLogica.js"></script>
+
+    <div id="toastCarrito" class="toast-carrito">
+      Producto añadido al carrito
+    </div>
+  </body>
+</html>

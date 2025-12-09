@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../components/navBar.css">
+  <link rel="stylesheet" href="./styles/usuarios.css">
+  <title>Admin | Usuarios</title>
+</head>
+
+<body>
+    <!-- Importante NO ELIMINAR ya que es el validador de Inicio de sesion-->
+    <script type="module">
+        import { protegerPagina } from "../public/logica/proteccionLogica.js";
+        protegerPagina("Administrador");
+    </script>
+
+  <div id="header-componente"></div>
+
+  <h1>Gestión de Usuarios</h1>
+
+  <button id="btnAbrirCrear" class="btnNuevo">+ Crear Usuario</button>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Cédula</th>
+        <th>Teléfono</th>
+        <th>Correo</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="tablaUsuarios"></tbody>
+  </table>
+
+  <!-- ============================
+      MODAL CREAR USUARIO
+=============================== -->
+  <div id="modalCrear" class="modal-bg">
+    <div class="modal">
+      <h2>Crear Usuario</h2>
+
+      <input id="crearNombre" placeholder="Nombre" oninput="soloLetras(this)">
+      <input id="crearApellido" placeholder="Apellido" oninput="soloLetras(this)">
+      <input id="crearCedula" placeholder="Cédula" oninput="soloEntero(this)">
+      <input id="crearTelefono" placeholder="Teléfono" oninput="soloEntero(this)">
+      <input id="crearCorreo" placeholder="Correo">
+
+      <select id="crearRol">
+        <option>Cliente</option>
+        <option>Administrador</option>
+      </select>
+
+      <input id="crearContraseña" placeholder="Contraseña" oninput="sinEspeciales(this)">
+
+      <button id="btnCrearGuardar">Guardar</button>
+    </div>
+  </div>
+
+  <!-- ============================
+      MODAL EDITAR USUARIO
+=============================== -->
+  <div id="modalEditar" class="modal-bg">
+    <div class="modal">
+      <h2>Editar Usuario</h2>
+
+      <input type="hidden" id="editId">
+
+      <input id="editNombre" placeholder="Nombre" oninput="soloLetras(this)">
+      <input id="editApellido" placeholder="Apellido" oninput="soloLetras(this)">
+      <input id="editCedula" placeholder="Cédula" oninput="soloEntero(this)">
+      <input id="editTelefono" placeholder="Teléfono" oninput="soloEntero(this)">
+      <input id="editCorreo" placeholder="Correo" oninput="sinEspeciales(this)">
+
+      <select id="editRol">
+        <option>Cliente</option>
+        <option>Administrador</option>
+      </select>
+
+      <input id="editContraseña" placeholder="Contraseña" oninput="sinEspeciales(this)">
+
+      <button id="btnEditarGuardar">Actualizar</button>
+    </div>
+  </div>
+
+
+  <!-- Scripts normales -->
+<!-- Scripts -->
+ <script type="module" src="../components/navBar.js"></script>
+<script type="module" src="./logica/usuariosLogica.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Productos</title>
+
+    <link rel="stylesheet" href="./styles/productos.css">
+    <link rel="stylesheet" href="../components/navBar.css">
+</head>
+
+<body>
+    <!-- Importante NO ELIMINAR ya que es el validador de Inicio de sesion-->
+    <script type="module">
+        import { protegerPagina } from "../public/logica/proteccionLogica.js";
+        protegerPagina("Administrador");
+    </script>
+
+
+    <div id="header-componente"></div>
+
+    <div class="titulo-boton">
+        <h1>Productos registrados</h1>
+    </div>
+    
+    <button onclick="abrirModalCrear()" class="btn-agregar">+ Agregar producto</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Categoría</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tabla-productos"></tbody>
+    </table>
+
+    <!-- Modal crear -->
+    <div id="modal-crear-producto" class="modal">
+        <form id="form-crear-producto">
+            <input name="nombre_producto" oninput="soloLetras(this)" placeholder="Nombre" required>
+            <input name="precio_producto" type="number" step="0.01" oninput="soloDecimal(this)" placeholder="Precio" required>
+            <input name="descripcion_producto" oninput="sinEspeciales(this)">
+            <input type="file" name="imagen" accept="image/*">
+            <select name="nombre_categoria" required>
+                <option value="Bicicletas">Bicicletas</option>
+                <option value="Accesorios">Accesorios</option>
+                <option value="Repuestos">Repuestos</option>
+            </select>
+            <input name="entradas" type="number" oninput="soloEntero(this)" required>
+
+            <button>Guardar</button>
+            <button type="button" onclick="cerrarModalCrear()">Cerrar</button>
+        </form>
+    </div>
+
+    <!-- Modal editar -->
+    <div id="modal-editar-producto" class="modal">
+        <form id="form-editar-producto">
+            <input type="hidden" name="id_producto">
+            <input name="nombre_producto" required>
+            <input name="precio_producto" oninput="soloDecimal(this)">
+            <input name="entradas" oninput="soloEntero(this)">
+            <input name="descripcion_producto">
+            <input type="file" name="imagen" accept="image/*">
+            <select name="nombre_categoria">
+                <option value="Bicicletas">Bicicletas</option>
+                <option value="Accesorios">Accesorios</option>
+                <option value="Repuestos">Repuestos</option>
+            </select>
+            <input name="salidas" type="number">
+            <button>Actualizar</button>
+            <button type="button" onclick="cerrarModalEditar()">Cerrar</button>
+        </form>
+    </div>
+
+    <script type="module" src="../admin/logica/productosLogica.js"></script>
+    <script src="../components/navBar.js"></script>
+
+</body>
+
+</html>

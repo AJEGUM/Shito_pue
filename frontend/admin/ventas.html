@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Ventas</title>
+
+    <link rel="stylesheet" href="./styles/ventas.css">
+    <link rel="stylesheet" href="../components/navBar.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <!-- Importante NO ELIMINAR ya que es el validador de Inicio de sesion-->
+    <script type="module">
+        import { protegerPagina } from "../public/logica/proteccionLogica.js";
+        protegerPagina("Administrador");
+    </script>
+
+    <div id="header-componente"></div>
+
+    <h1>Ventas registradas</h1>
+
+    <div class="chart-container">
+        <canvas id="graficoVentas"></canvas>
+    </div>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID Venta</th>
+                <th>ID Cliente</th>
+                <th>Fecha</th>
+                <th>Método Pago</th>
+                <th>Total</th>
+                <th>Detalle</th>
+            </tr>
+        </thead>
+        <tbody id="tabla-ventas"></tbody>
+    </table>
+
+    <!-- Modal Detalle -->
+    <div id="modal-detalle" class="modal">
+        <div class="modal-content">
+            <h2>Detalle de venta</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio U</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody id="detalle-body"></tbody>
+            </table>
+
+            <button onclick="VentasUI.cerrarModal()">Cerrar</button>
+        </div>
+    </div>
+
+    <script type="module" src="./logica/ventasLogica.js"></script>
+    <script src="../components/navBar.js"></script>
+
+</body>
+
+</html>

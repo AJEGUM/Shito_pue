@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pasarela de Pago</title>
+    <link rel="stylesheet" href="./styles/pasarela.css">
+</head>
+<body>
+
+<h2>Finalizar Compra</h2>
+
+<div class="pago-container">
+
+    <!-- Información del pedido -->
+    <div class="card">
+        <h3>Resumen del pedido</h3>
+        <div id="listaResumen"></div>
+
+        <p class="total">
+            Total: <span id="totalPagar"></span>
+        </p>
+    </div>
+
+    <!-- Formulario de datos -->
+    <div class="card">
+        <h3>Datos de envío</h3>
+
+        <label>Dirección:</label>
+        <input type="text" id="direccion" placeholder="Tu dirección">
+
+        <label>Método de pago:</label>
+        <select id="metodoPago">
+            <option value="Efectivo">Efectivo</option>
+            <option value="Tarjeta">Tarjeta de Crédito</option>
+        </select>
+
+
+        <button id="btnConfirmarPago">Confirmar Compra</button>
+    </div>
+
+</div>
+
+<script type="module" src="./logica/pasarelaLogica.js"></script>
+
+</body>
+</html>

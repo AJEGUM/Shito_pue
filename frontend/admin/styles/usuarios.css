@@ -1,0 +1,219 @@
+h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #111827;
+}
+
+/* ======== FORMULARIO ======== */
+#formUsuarios {
+    background: #ffffff;
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+}
+
+#formUsuarios input,
+#formUsuarios select {
+    flex: 1 1 calc(33% - 10px);
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    background: #f9fafb;
+    outline: none;
+    transition: .2s;
+}
+
+#formUsuarios input:focus,
+#formUsuarios select:focus {
+    border-color: #6b7280;
+}
+
+/* BOTONES */
+#btnGuardar,
+#btnActualizar {
+    flex: 1 1 calc(50% - 10px);
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #374151;
+    color: white;
+    font-weight: bold;
+    transition: .2s;
+}
+
+#btnGuardar:hover,
+#btnActualizar:hover {
+    background: #1f2937;
+}
+
+/* ======== TABLA ======== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+thead {
+    background: #374151;
+    color: white;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: left;
+}
+
+tbody tr:hover {
+    background: #f3f4f6;
+}
+
+/* BOTONES DE ACCIÓN */
+.btn-accion {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: white;
+}
+
+.btn-editar {
+    background: #3b82f6;
+}
+
+.btn-eliminar {
+    background: #ef4444;
+}
+
+.btn-editar:hover {
+    background: #2563eb;
+}
+
+.btn-eliminar:hover {
+    background: #dc2626;
+}
+
+/* ======== MODAL ======== */
+.modal-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.55);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    background: white;
+    padding: 25px;
+    width: 450px;
+    border-radius: 12px;
+    border: 1px solid #d1d5db;
+}
+
+.modal h2 {
+    margin-top: 0;
+}
+
+.modal input,
+.modal select {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+}
+
+.modal button {
+    width: 100%;
+    padding: 12px;
+    background: #111827;
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+}
+
+.modal button:hover {
+    background: #000;
+}
+
+.modal-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.55);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: white;
+    padding: 25px;
+    width: 450px;
+    border-radius: 12px;
+    border: 1px solid #d1d5db;
+}
+
+.modal h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.modal input,
+.modal select {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+}
+
+.modal button {
+    width: 100%;
+    padding: 12px;
+    background: #1f2937;
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+}
+
+.modal button:hover {
+    background: #000;
+}
+
+.btnNuevo {
+    padding: 10px 15px;
+    background: #374151;
+    color: white;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+.btnNuevo:hover {
+    background: #1f2937;
+}
+
+.modal input,
+.modal select,
+.modal textarea {
+    box-sizing: border-box;
+}
