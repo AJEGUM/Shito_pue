@@ -43,6 +43,13 @@ formEditar.addEventListener("submit", async (e) => {
 
     await editarProducto(data.id_producto, data);
 
+    Swal.fire({
+        icon: "success",
+        title: "Producto actualizado",
+        timer: 1500,
+        showConfirmButton: false
+    });
+
     formEditar.reset();
     cerrarModalEditar();
     cargarProductos();
@@ -161,6 +168,13 @@ formCrear.addEventListener("submit", async (e) => {
 
     await crearProducto(data);
 
+    Swal.fire({
+        icon: "success",
+        title: "Producto creado",
+        timer: 1500,
+        showConfirmButton: false
+    });
+
     formCrear.reset();
     cerrarModalCrear();
     cargarProductos();
@@ -170,8 +184,47 @@ formCrear.addEventListener("submit", async (e) => {
 // Eliminar
 // ------------------------------
 window.confirmarEliminar = async (id) => {
-    if (confirm("¿Seguro que deseas eliminar este producto?")) {
-        await eliminarProducto(id);
+    const confirmacion = await Swal.fire({
+        title: "¿Eliminar producto?",
+        text: "Esta acción no se puede deshacer.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar"
+    });
+
+    if (!confirmacion.isConfirmed) return;
+
+    try {
+        const respuesta = await eliminarProducto(id);
+
+        if (respuesta.error) {
+            // Error enviado desde backend
+            Swal.fire({
+                icon: "error",
+                title: "No se pudo eliminar",
+                text: respuesta.error,
+            });
+            return;
+        }
+
+        Swal.fire({
+            icon: "success",
+            title: "Producto eliminado",
+            timer: 1500,
+            showConfirmButton: false
+        });
+
         cargarProductos();
+
+    } catch (error) {
+        // Error por FK (como tu caso actual)
+        Swal.fire({
+            icon: "error",
+            title: "Error al eliminar",
+            text: "Este producto no se puede eliminar porque ya tiene ventas registradas.",
+        });
     }
 };
