@@ -26,9 +26,9 @@ window.abrirModalEditar = (producto) => {
     formEditar.precio_producto.value = producto.precio_producto;
     formEditar.descripcion_producto.value = producto.descripcion_producto;
     formEditar.nombre_categoria.value = producto.nombre_categoria;
-    formEditar.entradas.value = producto.entradas;
-    formEditar.salidas.value = producto.salidas;
+    formEditar.stock.value = producto.stock;
 };
+
 
 formEditar.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -130,7 +130,7 @@ formCrear.addEventListener("submit", async (e) => {
     // VALIDACIÓN
     const nombre = data.nombre_producto.trim();
     const precio = data.precio_producto.trim();
-    const entradas = data.entradas.trim();
+    const stock = data.stock.trim();
     const descripcion = data.descripcion_producto.trim();
 
     if (!/^[\w\sáéíóúÁÉÍÓÚñÑ.-]{3,50}$/.test(nombre)) {
@@ -143,8 +143,8 @@ formCrear.addEventListener("submit", async (e) => {
         return;
     }
 
-    if (!/^\d+$/.test(entradas)) {
-        alert("Las entradas deben ser un número entero.");
+    if (!/^\d+$/.test(stock)) {
+        alert("El stock debe ser un número entero.");
         return;
     }
 

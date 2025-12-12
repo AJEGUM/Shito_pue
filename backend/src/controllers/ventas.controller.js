@@ -65,53 +65,56 @@ class VentasController {
     }
   }
 
-  async crearVenta(req, res) {
+ async crearVenta(req, res) {
     const connection = await db.getConnection();
     await connection.beginTransaction();
 
     try {
-      const { id_cliente, fecha, direccion, metodo_pago, total, detalles } =
-        req.body;
+        const { id_cliente, fecha, direccion, metodo_pago, total, detalles } = req.body;
 
-      // Insertar venta
-      const [venta] = await connection.query(
-        `INSERT INTO ventas(id_cliente, fecha, direccion, metodo_pago, total)
-         VALUES (?, ?, ?, ?, ?)`,
-        [id_cliente, fecha, direccion, metodo_pago, total]
-      );
-
-      const id_venta = venta.insertId;
-
-      // Insertar detalles
-      for (const item of detalles) {
-        await connection.query(
-          `INSERT INTO detalle_ventas (id_venta, id_producto, cantidad, precio_unitario)
-           VALUES (?, ?, ?, ?)`,
-          [id_venta, item.id_producto, item.cantidad, item.precio_unitario]
+        // Insertar venta
+        const [venta] = await connection.query(
+            `INSERT INTO ventas(id_cliente, fecha, direccion, metodo_pago, total)
+             VALUES (?, ?, ?, ?, ?)`,
+            [id_cliente, fecha, direccion, metodo_pago, total]
         );
 
-        // Actualizar salidas del producto
-        await connection.query(
-          `UPDATE productos SET salidas = salidas + ? WHERE id_producto = ?`,
-          [item.cantidad, item.id_producto]
-        );
-      }
+        const id_venta = venta.insertId;
 
-      // Confirmar todo
-      await connection.commit();
+        // Insertar detalles + descontar stock
+        for (const item of detalles) {
 
-      res.status(201).json({
-        mensaje: "Venta creada correctamente con detalles",
-        id_venta: id_venta,
-      });
+            // Insertar detalle
+            await connection.query(
+                `INSERT INTO detalle_ventas (id_venta, id_producto, cantidad, precio_unitario)
+                VALUES (?, ?, ?, ?)`,
+                [id_venta, item.id_producto, item.cantidad, item.precio_unitario]
+            );
+
+            // 🔥 Descontar stock
+            await connection.query(
+                `UPDATE productos SET stock = stock - ? WHERE id_producto = ?`,
+                [item.cantidad, item.id_producto]
+            );
+
+        }
+
+        await connection.commit();
+
+        res.status(201).json({
+            mensaje: "Venta creada correctamente",
+            id_venta
+        });
+
     } catch (error) {
-      await connection.rollback();
-      console.error(error);
-      res.status(500).json({ error: "Error al procesar la venta completa" });
+        await connection.rollback();
+        console.error(error);
+        res.status(500).json({ error: "Error al procesar la venta completa" });
     } finally {
-      connection.release();
+        connection.release();
     }
-  }
+}
+
 }
 
 module.exports = VentasController;
