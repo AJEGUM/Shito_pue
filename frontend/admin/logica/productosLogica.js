@@ -200,16 +200,18 @@ window.confirmarEliminar = async (id) => {
     try {
         const respuesta = await eliminarProducto(id);
 
+        // ⚠️ Error enviado por backend (FK)
         if (respuesta.error) {
-            // Error enviado desde backend
             Swal.fire({
                 icon: "error",
                 title: "No se pudo eliminar",
-                text: respuesta.error,
+                text: "Este producto no puede eliminarse porque está asociado a ventas registradas. " +
+                      "Para mantener la integridad del historial, los productos vendidos no pueden ser borrados."
             });
             return;
         }
 
+        // ✔ Success
         Swal.fire({
             icon: "success",
             title: "Producto eliminado",
@@ -220,11 +222,11 @@ window.confirmarEliminar = async (id) => {
         cargarProductos();
 
     } catch (error) {
-        // Error por FK (como tu caso actual)
+        // ⚠️ Error inesperado
         Swal.fire({
             icon: "error",
             title: "Error al eliminar",
-            text: "Este producto no se puede eliminar porque ya tiene ventas registradas.",
+            text: "Ocurrió un error inesperado. Por favor intenta nuevamente."
         });
     }
 };

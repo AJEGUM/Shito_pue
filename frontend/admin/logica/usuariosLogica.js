@@ -9,7 +9,7 @@ import {
 export class UsuariosUI {
 
   // ==========================
-  //  CARGAR TABLA
+  // CARGAR TABLA
   // ==========================
   async cargarTabla() {
     const usuarios = await obtenerUsuarios();
@@ -38,24 +38,42 @@ export class UsuariosUI {
   }
 
   // ==========================
-  //  BOTONES: EDITAR / ELIMINAR
+  // BOTONES DE ACCIÓN
   // ==========================
   activarBotones() {
 
-    // ---------------- ELIMINAR ----------------
+    // -------- ELIMINAR --------
     document.querySelectorAll(".btnEliminar").forEach(btn => {
       btn.addEventListener("click", async (e) => {
         const id = e.target.dataset.id;
-        await eliminarUsuario(id);
-        this.cargarTabla();
+
+        const confirm = await Swal.fire({
+          title: "¿Eliminar usuario?",
+          text: "Esta acción no se puede deshacer.",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Sí, eliminar",
+          cancelButtonText: "Cancelar"
+        });
+
+        if (confirm.isConfirmed) {
+          await eliminarUsuario(id);
+
+          Swal.fire({
+            icon: "success",
+            title: "Eliminado",
+            text: "El usuario fue eliminado correctamente."
+          });
+
+          this.cargarTabla();
+        }
       });
     });
 
-    // ---------------- EDITAR ----------------
+    // -------- EDITAR --------
     document.querySelectorAll(".btnEditar").forEach(btn => {
       btn.addEventListener("click", async (e) => {
         const id = e.target.dataset.id;
-
         const u = await obtenerUsuarioPorId(id);
 
         document.getElementById("editId").value = id;
@@ -67,14 +85,13 @@ export class UsuariosUI {
         document.getElementById("editRol").value = u.rol;
         document.getElementById("editContraseña").value = "";
 
-
         this.abrirModal("modalEditar");
       });
     });
   }
 
   // ==========================
-  //  ABRIR / CERRAR MODALES
+  // ABRIR / CERRAR MODALES
   // ==========================
   abrirModal(id) {
     document.getElementById(id).style.display = "flex";
@@ -85,83 +102,70 @@ export class UsuariosUI {
   }
 
   // ==========================
-  //  CREAR USUARIO
+  // CREAR USUARIO
   // ==========================
-async crear() {
+  async crear() {
 
-  const nombre = document.getElementById("crearNombre").value.trim();
-  const apellido = document.getElementById("crearApellido").value.trim();
-  const cedula = document.getElementById("crearCedula").value.trim();
-  const telefono = document.getElementById("crearTelefono").value.trim();
-  const correo = document.getElementById("crearCorreo").value.trim();
-  const rol = document.getElementById("crearRol").value.trim();
-  const contraseña = document.getElementById("crearContraseña").value.trim();
+    const nombre = document.getElementById("crearNombre").value.trim();
+    const apellido = document.getElementById("crearApellido").value.trim();
+    const cedula = document.getElementById("crearCedula").value.trim();
+    const telefono = document.getElementById("crearTelefono").value.trim();
+    const correo = document.getElementById("crearCorreo").value.trim();
+    const rol = document.getElementById("crearRol").value.trim();
+    const contraseña = document.getElementById("crearContraseña").value.trim();
 
-  // ===============================
-  // VALIDAR FORMULARIO VACÍO
-  // ===============================
-  if (!nombre || !apellido || !cedula || !telefono || !correo || !rol || !contraseña) {
-    alert("Por favor, completa todos los campos.");
-    return;
+    // -------- Validación de campos vacíos --------
+    if (!nombre || !apellido || !cedula || !telefono || !correo || !rol || !contraseña) {
+      Swal.fire({
+        icon: "error",
+        title: "Campos incompletos",
+        text: "Por favor, completa todos los campos."
+      });
+      return;
+    }
+
+    // -------- Validaciones --------
+    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{3,30}$/.test(nombre)) {
+      return Swal.fire({ icon: "error", title: "Nombre inválido", text: "Debe tener solo letras y mínimo 3 caracteres." });
+    }
+
+    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{3,30}$/.test(apellido)) {
+      return Swal.fire({ icon: "error", title: "Apellido inválido", text: "Debe tener solo letras y mínimo 3 caracteres." });
+    }
+
+    if (!/^\d{6,11}$/.test(cedula)) {
+      return Swal.fire({ icon: "error", title: "Cédula inválida", text: "Debe tener entre 6 y 11 números." });
+    }
+
+    if (!/^\d{7,10}$/.test(telefono)) {
+      return Swal.fire({ icon: "error", title: "Teléfono inválido", text: "Debe tener entre 7 y 10 números." });
+    }
+
+    if (!/\S+@\S+\.\S+/.test(correo)) {
+      return Swal.fire({ icon: "error", title: "Correo inválido", text: "Ingresa un correo válido." });
+    }
+
+    if (contraseña.length < 6) {
+      return Swal.fire({ icon: "error", title: "Contraseña débil", text: "Debe tener mínimo 6 caracteres." });
+    }
+
+    // -------- Enviar datos --------
+    const data = { nombre, apellido, cedula, telefono, correo, rol, contraseña };
+
+    await crearUsuario(data);
+
+    Swal.fire({
+      icon: "success",
+      title: "Usuario creado",
+      text: "El usuario ha sido registrado exitosamente."
+    });
+
+    this.cargarTabla();
+    this.cerrarModal("modalCrear");
   }
-
-  // ===============================
-  // VALIDACIONES ESPECÍFICAS
-  // ===============================
-  if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{3,30}$/.test(nombre)) {
-    alert("Nombre inválido: solo letras y mínimo 3 caracteres.");
-    return;
-  }
-
-  if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{3,30}$/.test(apellido)) {
-    alert("Apellido inválido: solo letras y mínimo 3 caracteres.");
-    return;
-  }
-
-  if (!/^\d{6,11}$/.test(cedula)) {
-    alert("La cédula debe contener entre 6 y 11 números.");
-    return;
-  }
-
-  if (!/^\d{7,10}$/.test(telefono)) {
-    alert("El teléfono debe contener entre 7 y 10 números.");
-    return;
-  }
-
-  if (!/\S+@\S+\.\S+/.test(correo)) {
-    alert("Correo electrónico inválido.");
-    return;
-  }
-
-  if (contraseña.length < 6) {
-    alert("La contraseña debe tener mínimo 6 caracteres.");
-    return;
-  }
-
-  // ===============================
-  // SI TODO ESTÁ BIEN → ENVIAR
-  // ===============================
-  const data = {
-    nombre,
-    apellido,
-    cedula,
-    telefono,
-    correo,
-    rol,
-    contraseña
-  };
-
-  await crearUsuario(data);
-
-  alert("Usuario creado correctamente.");
-
-  this.cargarTabla();
-  this.cerrarModal("modalCrear");
-}
-
 
   // ==========================
-  //  GUARDAR EDICIÓN
+  // ACTUALIZAR USUARIO
   // ==========================
   async actualizar() {
 
@@ -179,31 +183,37 @@ async crear() {
 
     await actualizarUsuario(id, data);
 
+    Swal.fire({
+      icon: "success",
+      title: "Usuario actualizado",
+      text: "Los datos se han guardado correctamente."
+    });
+
     this.cargarTabla();
     this.cerrarModal("modalEditar");
   }
 }
 
-// Validaciones
+// ==========================
+// VALIDADORES
+// ==========================
 window.soloLetras = (input) => {
-    input.value = input.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, "");
+  input.value = input.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, "");
 };
 
 window.soloEntero = (input) => {
-    input.value = input.value.replace(/\D+/g, "");
+  input.value = input.value.replace(/\D+/g, "");
 };
 
 window.sinEspeciales = (input) => {
-    input.value = input.value.replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s.,-]/g, "");
+  input.value = input.value.replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s.,-]/g, "");
 };
 
+// ==========================
+// INICIALIZACIÓN
+// ==========================
 const usuariosUI = new UsuariosUI();
-// ==========================
-// EVENTOS DE LOS MODALES
-// ==========================
-// ==========================
-// INICIALIZACIÓN AUTOMÁTICA
-// ==========================
+
 document.addEventListener("DOMContentLoaded", () => {
 
   usuariosUI.cargarTabla();
