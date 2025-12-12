@@ -41,7 +41,7 @@ formEditar.addEventListener("submit", async (e) => {
         data.imagen = await convertirABase64(file);
     }
 
-    await editarProducto(data);
+    await editarProducto(data.id_producto, data);
 
     formEditar.reset();
     cerrarModalEditar();

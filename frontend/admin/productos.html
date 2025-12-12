@@ -62,17 +62,16 @@
     <div id="modal-editar-producto" class="modal">
         <form id="form-editar-producto">
             <input type="hidden" name="id_producto">
-            <input name="nombre_producto" required>
-            <input name="precio_producto" oninput="soloDecimal(this)">
-            <input name="entradas" oninput="soloEntero(this)">
-            <input name="descripcion_producto">
+            <input name="nombre_producto" placeholder="Nombre" required>
+            <input name="precio_producto" placeholder="Precio" oninput="soloDecimal(this)">
+            <input name="entradas" placeholder="Stock" oninput="soloEntero(this)">
+            <input name="descripcion_producto" placeholder="Descripcion">
             <input type="file" name="imagen" accept="image/*">
             <select name="nombre_categoria">
                 <option value="Bicicletas">Bicicletas</option>
                 <option value="Accesorios">Accesorios</option>
                 <option value="Repuestos">Repuestos</option>
             </select>
-            <input name="salidas" type="number">
             <button>Actualizar</button>
             <button type="button" onclick="cerrarModalEditar()">Cerrar</button>
         </form>
